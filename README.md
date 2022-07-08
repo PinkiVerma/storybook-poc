@@ -68,3 +68,54 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+Makes it easy to build components in isolation(i.e storybook runs outside of main react application ) without worrying about app specific dependencies and requirements.​
+Changes
+package.json:
+storybook is required only during developement, therefore all the dependencies are dev dependencies
+Two scripts are added: 1st one is to run storybook in development mode and 2nd one is to build it for production
+
+Addition of the default storybook configuration i.e storybook folder. It contains two files:
+In main.js(which conatins configuration for storybook itself), we export an object with two properties, 
+1) is stories, which indicates that all files within src folder that end with extension .stories.mdx/js/jsx/ts/tsx have to be treated as stories for our storybook app.
+I'll talk about 2)addons later in the presentation
+
+2nd file is preview.js that contains configuration for the stories that we write
+
+and it adds some boiler plate stories for us to get started within stories folder
+
+what is storybook?
+Storybook is a collection of stories and each story represents a single visual state of a component.
+
+either we can put component,css and story of that component in one folder or we can follow this pattern.
+
+
+
+How to write stories?
+Stories are written in Component Story Format (CSF). The key ingredients are the default export that describes the component, and one or more named exports that describe the stories.
+Default export
+The default export metadata controls how Storybook lists your stories and provides information used by addons. 
+Defining stories
+Use the named exports of a CSF file to define your component’s stories. We recommend you use UpperCamelCase for your story exports. Here’s how to render Button in the “primary” state and export a story called Primary.
+
+What is args mechanism?
+In v6 version, each story is considered to be a component with a set of arguements, for ex: props are considered as arguements.
+
+creating template out of button component
+Template.bind({}) is a standard JavaScript technique for making a copy of a function. We copy the Template so each exported story can set its own properties on it.
+//Args approach is better cause the code becomes more readable. Using it, we are creating different stories which represent different states of the component && we can extend the props from different stories also.
+We can set args at the component level which will be applied to all the component stories.
+NOTE: Args at story level will overwrite the args at component level
+
+Add ons:
+They are used to implememt extra features for storybooks to make them more useful
+
+1) Changing the background colour. This addon is very useful when we have to test components with white background
+2) Controls addon: It lets us change the arguements for a story or with react , we can say that it lets us dynamically change the props of the component. We actually get it when args mech is used.
+3)Actions addon: It lets us log user actions and it works really well with args mech. this addon helps us to ensure that oue events are working fine
+4)Docs addon:so if let's say i'm working in a team and i want to use components created by other devs.This addon gives us the code of each of the stories, we can simply and ocpy it into our editor.
+5) viewPort addon: It lets us select different viewport sizes that helps us to develop and test responsive components
+
+
+Topics not covered up
+Theme & decorators
